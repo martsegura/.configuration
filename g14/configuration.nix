@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -141,7 +141,6 @@
 
    #### APPS
   environment.systemPackages = with pkgs; [
-	gpu-screen-recorder-gtk
 	git
 	curl
 	wget
@@ -164,13 +163,27 @@
 	blender
 	libresprite
 	gimp
-	cider-2
+	inputs.sidra.packages.${pkgs.stdenv.hostPlatform.system}.default
+	obs-studio
 	nodejs
+	jdk21
+	jdt-language-server
 	github-cli
 	zed-editor
 
 
   ];
+
+
+  ### BINARIOS NECESARIOS PARA ZED
+  programs.nix-ld = {
+	enable = true;
+
+	libraries = with pkgs; [
+	stdenv.cc.cc
+	openssl
+	];
+  };
 
    ### JUEGUITOS
   programs.steam = {
@@ -205,7 +218,12 @@
 		options = "--delete-older-than 14d";
   };
 
-
+  # List packages installed in system profile.
+  # You can use https://search.nixos.org/ to find more packages (and options).
+  # environment.systemPackages = with pkgs; [
+  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #   wget
+  # ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
