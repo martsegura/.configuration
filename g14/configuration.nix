@@ -164,12 +164,12 @@
 	libresprite
 	gimp
 	inputs.sidra.packages.${pkgs.stdenv.hostPlatform.system}.default
-	obs-studio
 	nodejs
 	jdk21
 	jdt-language-server
 	github-cli
 	zed-editor
+	obsidian
 
 
   ];
@@ -184,6 +184,24 @@
 	openssl
 	];
   };
+
+  ### FLATPAKS
+  services.flatpak = {
+  enable = true;
+
+  packages = [
+    "com.github.tchx84.Flatseal"
+    "app.zen_browser.zen"
+    "com.obsproject.Studio"
+  ];
+
+  update = {
+    auto = {
+      enable = true;
+      onCalendar = "weekly";
+    };
+  };
+};
 
    ### JUEGUITOS
   programs.steam = {
