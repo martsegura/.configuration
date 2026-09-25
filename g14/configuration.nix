@@ -195,6 +195,14 @@
     "com.obsproject.Studio"
   ];
 
+  overrides = {
+    "com.obsproject.Studio".Context."unset-environment" = [
+      "QT_PLUGIN_PATH"
+      "QT_QPA_PLATFORM_PLUGIN_PATH"
+      "QML2_IMPORT_PATH"
+    ];
+  };
+
   update = {
     auto = {
       enable = true;
